@@ -1,6 +1,6 @@
 #连接数据库
 ##段落
-`package com.atguigu.jdbc`
+`package com.atguigu.jdbc`。
 package com.atguigu.jdbc;
 import java.io.IOException;
 import java.io.InputStream;
