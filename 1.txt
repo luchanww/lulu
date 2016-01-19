@@ -1,0 +1,166 @@
+mysql> show variables like 'table_type';
++---------------+--------+
+| Variable_name | Value  |
++---------------+--------+
+| table_type    | InnoDB |
++---------------+--------+
+1 row in set
+
+mysql> show engines \g;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\g' at line 1
+mysql> show engines \g
+    -> show variables like 'have%';
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\g
+
+show variables like 'have%'' at line 1
+mysql> show variables like 'have%';
++-----------------------+----------+
+| Variable_name         | Value    |
++-----------------------+----------+
+| have_archive          | YES      |
+| have_bdb              | NO       |
+| have_blackhole_engine | NO       |
+| have_compress         | YES      |
+| have_crypt            | NO       |
+| have_csv              | NO       |
+| have_dynamic_loading  | YES      |
+| have_example_engine   | NO       |
+| have_federated_engine | NO       |
+| have_geometry         | YES      |
+| have_innodb           | YES      |
+| have_isam             | NO       |
+| have_merge_engine     | YES      |
+| have_ndbcluster       | NO       |
+| have_openssl          | DISABLED |
+| have_query_cache      | YES      |
+| have_raid             | NO       |
+| have_rtree_keys       | YES      |
+| have_symlink          | YES      |
++-----------------------+----------+
+19 rows in set
+
+mysql> create table autoincre_demo
+    -> (i samllint not null auto_increment,name varchar(10),primary key(i))engine=innodb;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'samllint not null auto_increment,name varchar(10),primary key(i))engine=innodb' at line 3
+mysql> (i samllint not null auto_increment,
+    -> name varchar(10),
+primary key(i))engine=innodb;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'i samllint not null auto_increment,
+name varchar(10),primary key(i))engine=i' at line 1
+mysql> name varchar(10),primary key(i))engine=innodb;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name varchar(10),primary key(i))engine=innodb' at line 1
+mysql> create table autoincre_demo
+    -> (i samllint not null auto_increment,name varchar(10),primary key(i))engine=innodb;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (i samllint not null auto_increment,name varchar(10),primary key(i))engine=in' at line 2
+mysql> create table autoincre_demo
+    -> (i samllint not null auto_increment,name varchar(10),primary key(i)
+    -> )engine=innodb;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (i samllint not null auto_increment,name varchar(10),primary key(i)
+
+)engi' at line 2
+mysql> insert into autoincre_demo values(1,'1'),(0,'2'),(null,'3');
+1146 - Table 'test1.autoincre_demo' doesn't exist
+mysql> create table autoincre_demo
+    -> (i smallint not null auto_increment,
+    -> name varchar(10),primary key(i)
+    -> )engine=InnoDB;
+Query OK, 0 rows affected
+
+mysql> insert into autoincre_demo values(1,'1'),(0,'2'),(null,'3');
+Query OK, 3 rows affected
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select *from;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select *from autoincre_demo ;
++---+------+
+| i | name |
++---+------+
+| 1 | 1    |
+| 2 | 2    |
+| 3 | 3    |
++---+------+
+3 rows in set
+
+mysql> insert into autoincre_demo values(4,'4');
+Query OK, 1 row affected
+
+mysql> select last_insert_id();
++------------------+
+| last_insert_id() |
++------------------+
+|                2 |
++------------------+
+1 row in set
+
+mysql> insert into autoincre_demo (name) values('5'),('6'),('7');
+Query OK, 3 rows affected
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select last_insert_d();
+1305 - FUNCTION test1.last_insert_d does not exist
+mysql> select last_insert_id();
++------------------+
+| last_insert_id() |
++------------------+
+|                5 |
++------------------+
+1 row in set
+
+mysql> create table autoincre_demo
+    -> (d1 samallint not null auto_increment,
+    -> d2 samllint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=myisam;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'samallint not null auto_increment,
+
+d2 samllint not null,
+
+name varchar(10' at line 3
+mysql>  create table autoincre_demo
+    -> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=myisam;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> n' at line 2
+mysql>  create table autoincre_demo
+    -> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=myisam;
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> n' at line 2
+mysql>  create table autoincre_demo
+    -> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=MYISAM; 
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> n' at line 2
+mysql> create table autoincre_demo
+    -> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=MYISAM; 
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> n' at line 2
+mysql> create table autoincre_demo
+    -> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> name varchar(10),
+    -> index(d2,d1)
+    -> )engine=MyISAM; 
+1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (d1 smallint not null auto_increment,
+    -> d2 smallint not null,
+    -> n' at line 2
+mysql>    

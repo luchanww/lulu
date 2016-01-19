@@ -1,14 +1,14 @@
-﻿#连接数据库
-##段落
-`package com.atguigu.jdbc`
 package com.atguigu.jdbc;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
+
 import org.junit.Test;
+
 public class JDBCTest {
 public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException{
 	
@@ -16,7 +16,7 @@ public Connection getConnection() throws InstantiationException, IllegalAccessEx
 	String jdbcUrl=null;
 	String user=null;
 	String password=null;
-	//读取类路径下的jdbc.properties文件
+	//��ȡ��·���µ�jdbc.properties�ļ�
 	 InputStream in=
 		    getClass().getClassLoader().getResourceAsStream("jdbc.properties"); 
 	Properties properties=new Properties();

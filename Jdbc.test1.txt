@@ -1,0 +1,37 @@
+ 
+ package com.atguigu.jdbc;
+
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import org.junit.Test;
+
+public class JDBCTest {
+/*1加入mysql驱动
+ * 2解压mysql-connector-java.....
+ * 3在当前项目下创建lib目录
+ * 4吧mysql-connector-java.....复制到lib中
+ * 5 右键build-path，add to buildpath加入类路径下
+ * 6@throws SQLException
+ */
+	@Test
+	public void testDriver() throws SQLException {
+	//1.创建一个driver实现类的对象
+		Driver driver=new com.mysql.jdbc.Driver();		
+	//2准备链接数据库的基本信息：url,user,passsword
+		
+		String url="jdbc:mysql://localhost:3306/test";
+	Properties info=new Properties();
+	info.put("user", "root");
+	info.put("password", "123456a");	
+	//3调用Driver借口的connect(url,info)获取数据库链接
+	//缺点：数据封死修改则要修改程序
+	Connection connection =driver.connect(url, info);
+	System.out.println(connection);
+	}
+
+}
+
+//com.mysql.jdbc.Connection@1f4384c2

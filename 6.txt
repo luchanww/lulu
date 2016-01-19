@@ -1,0 +1,74 @@
+ package com.atguigu.jdbc;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import org.junit.Test;
+
+import com.mysql.jdbc.Statement;
+
+public class JDBCTest {
+ @Test
+ public void testStatement() throws SQLException, IOException, ClassNotFoundException
+ {
+	 Connection conn=getConnection2();
+ String sql="insert into first values(1001,'you',now());";
+ System.out.println(sql);
+  java.sql.Statement statemen= conn.createStatement();
+ //Statement statement=conn.createStatement() ;
+ statemen.executeUpdate(sql);
+ statemen.close();
+ conn.close();
+ 
+ 
+ }	
+ @Test
+	public void testGetConnection2() throws IOException, ClassNotFoundException, SQLException{
+		System.out.println( getConnection2());
+	}
+
+	public Connection getConnection2() throws IOException, ClassNotFoundException, SQLException{
+		Properties properties=new Properties();
+		InputStream in=
+			    this.getClass().getClassLoader().getResourceAsStream("jdbc.properties"); 
+		properties.load(in);
+		String user=properties.getProperty("user");
+		String password=properties.getProperty("password");
+		String jdbcUrl=properties.getProperty("jdbcUrl");
+		String driver=properties.getProperty("driver");
+		
+		Class.forName(driver);
+		return DriverManager.getConnection(jdbcUrl,user,password);
+		
+		
+	}
+	/*public Connection testDriverManager() throws SQLException, IOException, ClassNotFoundException{
+		String driverClass=null;
+		String jdbcUrl=null;
+		String user=null;
+		String password=null;
+		 
+		////读取类路径下的jdbc.properties文件
+		InputStream in=
+			    getClass().getClassLoader().getResourceAsStream("jdbc.properties"); 
+		Properties properties=new Properties();
+		properties.load(in);
+		driverClass=properties.getProperty("driver");
+		jdbcUrl=properties.getProperty("jdbcUrl");
+		user=properties.getProperty("user");
+		password=properties.getProperty("password");
+		//加载数据库驱动程序
+		Class.forName(driverClass);
+		
+	//通过DriverManager的getConnnection（）方法获取数据库链接
+		Connection connection=
+			DriverManager.getConnection(jdbcUrl,user,password);
+	System.out.println(connection);
+	return connection;
+	} */
+}
+
