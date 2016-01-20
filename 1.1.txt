@@ -1,0 +1,29 @@
+package com.atguigu.jdbc;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import org.junit.Test;
+
+import com.mysql.jdbc.Connection;
+
+public class Review {
+
+	@Test
+	public void testGetConnection() throws ClassNotFoundException, SQLException {
+	//1 准备获取链接的4个字符串
+		String user="root";
+		String password="123456a";
+		String jdbcUrl="jdbc:mysql://localhost:3306/test1";
+		String driverClass="com.mysql.jdbc.Driver";
+		//2加载驱动	
+		Class.forName(driverClass);
+		//3调用DriverManager.getConnnection(jdbcUrl,user,password);
+		
+		Connection connection= (Connection) DriverManager.getConnection(jdbcUrl, user, password);//getConnection(jdbcUrl,user,password);
+		
+	System.out.println(connection);	
+		
+	}
+
+}*/
