@@ -1,0 +1,118 @@
+package com.atguigu.jdbc;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import org.junit.Test;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.Statement;
+
+public class ReviewTest {
+@Test
+	public void testResultSet(){
+		Connection connection=null;
+		Statement statement=null;
+		ResultSet resultSet=null;
+		try{
+			connection =getConnection();
+			statement=(Statement) connection.createStatement();
+			String sql="select id from mp;";
+			
+			resultSet=(ResultSet) statement.executeQuery(sql);
+			
+			while(resultSet.next()){
+				int id=resultSet.getInt(1);
+				System.out.println(id);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			releaseDB(resultSet,statement,connection);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	@Test
+	public void testStatement(){//修改操作Statement用于SQL对象
+	Connection connection=null;
+Statement statement=null;
+try{
+	connection=getConnection();
+	statement=(Statement) connection.createStatement();
+	String sql="insert into mp values(20);";
+	statement.executeUpdate(sql);
+	
+}catch(Exception e){
+	e.printStackTrace();
+	
+}finally{
+releaseDB(null,statement,connection);	
+}
+	}
+	
+	
+	
+	public void releaseDB(ResultSet resultSet,Statement statement,
+			Connection connection){
+		if(resultSet!=null){
+			try{
+				resultSet.close();
+				
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		if(statement!=null){
+			try{
+				statement.close();
+				
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		if(connection!=null){
+			try{
+				connection.close();
+				
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	@Test
+	public void testGetConnection() throws ClassNotFoundException, SQLException, IOException {
+	
+		Connection connection = getConnection();
+		System.out.println(connection);
+			
+	}
+
+	public Connection getConnection() throws IOException,
+			ClassNotFoundException, SQLException {
+		Properties properties=new Properties();	
+		InputStream inStream=ReviewTest.class.getClassLoader()
+				.getResourceAsStream("jdbc.properties");
+		properties.load(inStream);
+			String user=properties.getProperty("user");
+		String password=properties.getProperty("password");
+		String jdbcUrl=properties.getProperty("jdbcUrl");
+		String driverClass=properties.getProperty("driverClass");
+		Class.forName(driverClass);
+		Connection connection=(Connection) DriverManager.getConnection(jdbcUrl,user,password);
+		return connection;
+	}
+
+}
+
+
+
