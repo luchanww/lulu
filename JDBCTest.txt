@@ -1,0 +1,161 @@
+import java.util.Scanner;
+
+import org.junit.Test;
+
+import com.atguigu.jdbc.JDBCTools;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.Statement;
+
+
+public class JDBCTest {
+@Test
+public void testGetStduent(){
+//1得到查询类型
+	int searchType=getSearchTypeFromConsole();
+	
+	Student student=searchStudent(searchType);
+	printStudent(student);
+	
+}
+	
+	
+	
+	
+	private void printStudent(Student student) {
+	// TODO Auto-generated method stub
+	if(student!=null){
+		System.out.println(student);
+		
+	}else
+	{
+		System.out.println("查无此人");
+	}
+}
+
+
+
+
+	private Student searchStudent(int searchType) {
+	// TODO Auto-generated method stub
+	String sql="select * from examstudent where ";//,"+
+	Scanner scanner=new Scanner(System.in);
+	if(searchType==1){
+		System.out.print("请输入准考证号:");
+		String examCard=scanner.next();
+		sql=sql+"examcard='2'";
+	}else{
+		System.out.print("请输入身份证号");
+		String examCard=scanner.next();
+		sql=sql+"idcard='"+examCard+"'";
+	}
+	Student student=getStudent(sql);	
+		return student;
+}
+
+
+
+
+	private Student getStudent(String sql) {
+		// TODO Auto-generated method stub
+		Student stu=null;
+		Connection connection=null;
+		Statement statement=null;
+		ResultSet resultSet=null;
+		try{
+			connection=JDBCTools.getConnection();
+			statement=(Statement) connection.createStatement();
+		resultSet=(ResultSet) statement.executeQuery(sql);
+			if(resultSet.next()){
+			stu=new Student(resultSet.getInt(1),
+					resultSet.getInt(2),
+					resultSet.getString(3),
+					resultSet.getString(4),
+					resultSet.getString(5),
+					resultSet.getString(6),
+					resultSet.getInt(7));	
+				
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			
+		}finally{
+			JDBCTools.releaseDB(resultSet, statement, connection);
+		}
+		return stu;
+		
+		
+	}
+
+
+
+
+	private int getSearchTypeFromConsole() {
+	// TODO Auto-generated method stub
+	System.out.print("请输入查询类型：1 身份证 2 准考证");
+	Scanner scanner=new Scanner(System.in);
+	int type=scanner.nextInt();
+	if(type!=1&&type!=2){
+		System.out.println("输入有误请重新输入！");
+		throw new RuntimeException();
+	}
+		return type;
+}
+
+
+
+
+	
+	@Test
+	public void testAddNewStudent(){
+		Student student=getStudentFromConsole();
+	addNewStudent(student);
+	
+	}
+	
+	private Student getStudentFromConsole(){
+		
+		Scanner scanner=new Scanner(System.in);
+		Student student=new Student();
+		System.out.println("FlowId:");
+		student.setFlowId(scanner.nextInt());
+		
+		System.out.println("Type:");
+		student.setType(scanner.nextInt());
+		
+		System.out.println("IdCard:");
+		student.setIdCard(scanner.next());
+		
+		System.out.println("ExamCard:");
+		student.setExamCard(scanner.next());
+		
+		System.out.println("StudentName:");
+		student.setStudentName(scanner.next());
+		
+		System.out.println("Location:");
+		student.setLocation(scanner.next());
+		
+		System.out.println("Grade:");
+		student.setGrade(scanner.nextInt());
+	
+		return student;
+	}
+	
+	public void addNewStudent(Student student) {
+		//fail("Not yet implemented");
+		System.out.print(student.getFlowId());
+	String sql="insert into examstudent"+" values("+
+		student.getFlowId()+","+student.getType()
+		+",'"+student.getIdCard()+"','"+student.getExamCard()
+		+"','"+student.getStudentName()
+		+"','"+student.getLocation()
+		+"',"+student.getGrade()+")";
+	JDBCTools.update(sql);
+	
+	
+	
+	
+	
+	}
+
+}
